@@ -1,2 +1,4 @@
-automationApi/AppTest.java
- automationApi.AppTest
+automationApi/dominio/Usuario.java
+ automationApi.dominio.Usuario
+automationApi/teste/UsuarioTeste.java
+ automationApi.teste.UsuarioTeste
