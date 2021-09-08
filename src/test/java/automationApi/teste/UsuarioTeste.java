@@ -1,30 +1,24 @@
 package automationApi.teste;
 
 import automationApi.dominio.Usuario;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
-public class UsuarioTeste {
+public class UsuarioTeste extends BaseTeste{
 
-    @BeforeAll
-    public static void setup() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-        baseURI = "https://reqres.in";
-        basePath = "/api";
-    }
+    private static final String LISTA_USUARIOS_ENDPOINT = "/users";
+    private static final String CRIA_USUARIO_ENDPOINT = "/users";
 
     @Test
-    public void testeMetadadosUsuario() {
+    public void testeListaPaginaUsuarioEspecifica() {
         given()
                 .params("page", "2")
         .when()
-                .get("/users")
+                .get(LISTA_USUARIOS_ENDPOINT)
         .then()
                 .statusCode(HttpStatus.SC_OK)
                 .body("page",is(2))
@@ -37,14 +31,13 @@ public class UsuarioTeste {
 
     @Test
     public void testeCriarUsuarioComSucesso(){
-        Usuario usuario = new Usuario("Natália", "eng teste");
+        Usuario usuario = new Usuario("Natália", "eng teste", "email@gmail.com");
 
         given()
                 //.log().all()
-                .contentType(ContentType.JSON)
                 .body(usuario)
         .when()
-                .post("/users")
+                .post(CRIA_USUARIO_ENDPOINT)
         .then()
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("name", is("Natália"))

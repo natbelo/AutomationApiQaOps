@@ -4,10 +4,16 @@ public class Usuario {
 
     private String name;
     private String job;
+    private String email;
 
-    public Usuario(String name, String job) {
+    public Usuario(){
+
+    }
+
+    public Usuario(String name, String job, String email) {
         this.name = name;
         this.job = job;
+        this.email = email;
     }
 
     public String getName() {
@@ -16,5 +22,13 @@ public class Usuario {
 
     public String getJob() {
         return job;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

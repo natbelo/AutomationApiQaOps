@@ -2,3 +2,7 @@ automationApi/dominio/Usuario.java
  automationApi.dominio.Usuario
 automationApi/teste/UsuarioTeste.java
  automationApi.teste.UsuarioTeste
+automationApi/teste/BaseTeste.java
+ automationApi.teste.BaseTeste
+automationApi/teste/RegistroTeste.java
+ automationApi.teste.RegistroTeste
