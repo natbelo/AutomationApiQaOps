@@ -1,8 +1,8 @@
-automationApi/dominio/Usuario.java
- automationApi.dominio.Usuario
 automationApi/teste/TesteBase.java
  automationApi.teste.TesteBase
-automationApi/teste/TesteUsuario.java
- automationApi.teste.TesteUsuario
+automationApi/dominio/Usuario.java
+ automationApi.dominio.Usuario
 automationApi/teste/TesteRegistro.java
  automationApi.teste.TesteRegistro
+automationApi/teste/TesteUsuario.java
+ automationApi.teste.TesteUsuario

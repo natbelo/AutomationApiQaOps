@@ -5,13 +5,14 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class TesteUsuario extends TesteBase {
 
     private static final String LISTA_USUARIOS_ENDPOINT = "/users";
     private static final String CRIA_USUARIO_ENDPOINT = "/users";
+    private static final String MOSTRA_USUARIO_ENDPOINT = "users/{userId}";
 
     @Test
     public void testeMostraPaginaEspecifica() {
@@ -43,7 +44,7 @@ public class TesteUsuario extends TesteBase {
         ;
     }
 
-    @Test
+   /* @Test
     public void testeTamanhoDosItensMostradosIgualAoPerPage() {
         int paginaEsperada = 2;
 
@@ -61,6 +62,23 @@ public class TesteUsuario extends TesteBase {
                        "data.findAll { it.avatar.startWith('https://s3.amazonaws.com')}.size()",is(perPageEsperado)
                 )
         ;
+    }
+*/
+    @Test
+    public void testeMostraUsuarioEspecifico(){
+        Usuario usuario = given()
+                .pathParam("userId",2)
+        .when()
+                .get(MOSTRA_USUARIO_ENDPOINT)
+        .then()
+                .statusCode(HttpStatus.SC_OK)
+        .extract()
+                .body().jsonPath().getObject("data", Usuario.class)
+                ;
+        assertThat(usuario.getEmail(), containsString("@reqres.in"));
+        assertThat(usuario.getName(), is("Janet"));
+        assertThat(usuario.getLastName(), is("Weaver"));
+
     }
 
     private int getPerPageEsperado() {
