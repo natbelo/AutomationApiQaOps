@@ -8,13 +8,13 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class UsuarioTeste extends BaseTeste{
+public class TesteUsuario extends TesteBase {
 
     private static final String LISTA_USUARIOS_ENDPOINT = "/users";
     private static final String CRIA_USUARIO_ENDPOINT = "/users";
 
     @Test
-    public void testeListaPaginaUsuarioEspecifica() {
+    public void testeMostraPaginaEspecifica() {
         given()
                 .params("page", "2")
         .when()
@@ -34,7 +34,6 @@ public class UsuarioTeste extends BaseTeste{
         Usuario usuario = new Usuario("Natália", "eng teste", "email@gmail.com");
 
         given()
-                //.log().all()
                 .body(usuario)
         .when()
                 .post(CRIA_USUARIO_ENDPOINT)
@@ -44,5 +43,37 @@ public class UsuarioTeste extends BaseTeste{
         ;
     }
 
+    @Test
+    public void testeTamanhoDosItensMostradosIgualAoPerPage() {
+        int paginaEsperada = 2;
+
+        int perPageEsperado = getPerPageEsperado();
+
+        given()
+                .params("page", paginaEsperada)
+        .when()
+                .get(LISTA_USUARIOS_ENDPOINT)
+        .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body(
+                        "page", is(paginaEsperada),
+                        "data.size()", is(perPageEsperado),
+                       "data.findAll { it.avatar.startWith('https://s3.amazonaws.com')}.size()",is(perPageEsperado)
+                )
+        ;
+    }
+
+    private int getPerPageEsperado() {
+        int perPageEsperado = given()
+                .param("page",2)
+            .when()
+                .get(LISTA_USUARIOS_ENDPOINT)
+            .then()
+                .statusCode(HttpStatus.SC_OK)
+            .extract()
+                .path("per_page")
+            ;
+        return perPageEsperado;
+    }
 
 }
